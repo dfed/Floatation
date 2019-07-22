@@ -55,10 +55,11 @@ final class FeatureViewController: UIViewController {
   // MARK: Lifecycle
 
   init(experimentLauncher: ExperimentLauncher = CoreRegistry.shared.experimentLauncher) {
-    …
+    // …
   }
 
-}```
+}
+```
 
 Because each framework in your workspace can define its own `Registry`, and because each `Registry` only requires direct knowledge of the protocol and mock implementation of its vended properties, `Floatation` works well with flat dependency trees.
 
