@@ -9,6 +9,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.source_files = 'BuoyTest/Sources/**/*.{swift}'
 
+  s.dependency 'Floatation', '~> 0.0.1'
+
   s.weak_framework = "XCTest"
   s.pod_target_xcconfig = {
     'APPLICATION_EXTENSION_API_ONLY' => 'YES',
