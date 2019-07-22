@@ -1,0 +1,14 @@
+language: objective-c
+install:
+  - bundle install
+  - brew outdated carthage || brew upgrade carthage
+script:
+  - ./Scripts/ci.sh
+matrix:
+  include:
+  - osx_image: xcode10.2
+    env: ACTION="xcode";SCHEME="Floatation";SDK="iphonesimulator";DESTINATION="platform=iOS Simulator,OS=12.2,name=iPhone X";XCODE_ACTION="build test"
+  - osx_image: xcode10.2
+    env: ACTION="xcode";SCHEME="BuoyTest";SDK="iphonesimulator";DESTINATION="platform=iOS Simulator,OS=12.2,name=iPhone X";XCODE_ACTION="build test"
+  # - osx_image: xcode10.2 # re-enable this job once we've published a podspec
+  #   env: ACTION="pod-lint";SWIFT_VERSION="5.0"
