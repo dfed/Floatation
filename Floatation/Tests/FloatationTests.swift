@@ -11,14 +11,14 @@ class FloatationTests: XCTestCase {
 
     open override func setUp() {
         // Ensure that all stored Registry instances are reset before each test.
-        BaseRegistry.resetAllSharedInstances()
+        BaseRegistry.🧪resetAllSharedInstances()
 
         super.setUp()
     }
 
     open override func tearDown() {
         // Ensure that all stored Registry instances are reset after each test.
-        BaseRegistry.resetAllSharedInstances()
+        BaseRegistry.🧪resetAllSharedInstances()
 
         super.tearDown()
     }
@@ -57,18 +57,18 @@ class FloatationTests: XCTestCase {
     func test_resetAllSharedInstances_resetsShared() {
         let mockShared = TestRegistry.shared
         XCTAssertTrue(mockShared === TestRegistry.shared)
-        BaseRegistry.resetAllSharedInstances()
+        BaseRegistry.🧪resetAllSharedInstances()
         XCTAssertFalse(mockShared === TestRegistry.shared)
     }
 
     func test_allRegistryClasses_findsAllTypes() {
-        let allRegistryClassTypes = BaseRegistry.allRegistryClasses()
+        let allRegistryClassTypes = BaseRegistry.🧪allRegistryClasses()
         XCTAssertEqual(allRegistryClassTypes.count, 1)
     }
 
     func test_allRegistryClasses_canFindDesiredImplementations() {
         TestRegistry.assignDesiredImplementation(to: TestRegistry(mockableInstance: DefaultMockableType()))
-        let allRegistryClassTypes = BaseRegistry.allRegistryClasses()
+        let allRegistryClassTypes = BaseRegistry.🧪allRegistryClasses()
         for registryClassType in allRegistryClassTypes {
             XCTAssertNotNil(BaseRegistry.desiredImplementation(for: registryClassType))
         }

@@ -18,7 +18,7 @@ open class BaseRegistry {
     // MARK: Lifecycle
     
     public init() {}
-    
+
     // MARK: Internal Static
 
     /// Returns the previously registered desired implementation for a registry type.
@@ -29,39 +29,6 @@ open class BaseRegistry {
     /// Returns the memoized mock implementation of a registry type.
     internal static func memoizedMockImplementation<T>(for registryType: T.Type) -> T? where T: BaseRegistry {
         return selfIdentifierToMemoizedMockImplementationMap[registryType.selfIdentifier] as? T
-    }
-    
-    internal static var desiredImplementationCount: Int {
-        return selfIdentifierToDesiredImplementationMap.count
-    }
-    
-    /// A unit-testing helper method that resets all shared instances.
-    /// WARNING: Do not call this method in production.
-    internal static func resetAllSharedInstances() {
-        selfIdentifierToMemoizedMockImplementationMap = [ObjectIdentifier: BaseRegistry]()
-        selfIdentifierToDesiredImplementationMap = [ObjectIdentifier: BaseRegistry]()
-    }
-    
-    internal static func allRegistryClasses() -> [BaseRegistry.Type] {
-        var registryClasses = [BaseRegistry.Type]()
-        let classesCount = objc_getClassList(nil, 0)
-        
-        guard classesCount > 0 else {
-            return registryClasses
-        }
-        
-        let registryClassDescription = NSStringFromClass(BaseRegistry.self)
-        let classes = UnsafeMutablePointer<AnyClass?>.allocate(capacity: Int(classesCount))
-        for classIndex in 0..<objc_getClassList(AutoreleasingUnsafeMutablePointer(classes), classesCount) {
-            if let currentClass = classes[Int(classIndex)],
-                let superclass = class_getSuperclass(currentClass),
-                NSStringFromClass(superclass) == registryClassDescription
-            {
-                registryClasses.append(currentClass as! BaseRegistry.Type)
-            }
-        }
-        
-        return registryClasses
     }
 
     // MARK: Fileprivate Static
@@ -136,4 +103,55 @@ extension MockVendingRegistry where Self: BaseRegistry {
         setDesiredImplementation(shared, for: self)
     }
     
+}
+
+// MARK: - Testing Extensions
+
+extension BaseRegistry {
+
+    // MARK: Public Static
+
+    /// A unit-testing helper method that resets all shared instances.
+    /// - Warning: Do note call this method from production code.
+    public static func 🧪resetAllSharedInstances() {
+        selfIdentifierToMemoizedMockImplementationMap = [ObjectIdentifier: BaseRegistry]()
+        selfIdentifierToDesiredImplementationMap = [ObjectIdentifier: BaseRegistry]()
+    }
+
+    /// A unit-testing helper method that returns all class types inheriting from BaseRegistry.
+    /// - Warning: Do note call this method from production code.
+    public static func 🧪allRegistryClasses() -> [BaseRegistry.Type] {
+        var registryClasses = [BaseRegistry.Type]()
+        let classesCount = objc_getClassList(nil, 0)
+
+        guard classesCount > 0 else {
+            return registryClasses
+        }
+
+        let registryClassDescription = NSStringFromClass(BaseRegistry.self)
+        let classes = UnsafeMutablePointer<AnyClass?>.allocate(capacity: Int(classesCount))
+        for classIndex in 0..<objc_getClassList(AutoreleasingUnsafeMutablePointer(classes), classesCount) {
+            if let currentClass = classes[Int(classIndex)],
+                let superclass = class_getSuperclass(currentClass),
+                NSStringFromClass(superclass) == registryClassDescription
+            {
+                registryClasses.append(currentClass as! BaseRegistry.Type)
+            }
+        }
+
+        return registryClasses
+    }
+
+    /// A unit-testing helper method that returns the total count of set desired implementations.
+    /// - Warning: Do note call this method from production code.
+    public static var 🧪desiredImplementationCount: Int {
+        return selfIdentifierToDesiredImplementationMap.count
+    }
+
+    /// A unit-testing method that returns whether a desired implementation exists for the given Registry type.
+    /// - Warning: Do note call this method from production code.
+    public static func 🧪desiredImplementationExists<T>(for registryType: T.Type) -> Bool where T: BaseRegistry {
+        return desiredImplementation(for: registryType) != nil
+    }
+
 }

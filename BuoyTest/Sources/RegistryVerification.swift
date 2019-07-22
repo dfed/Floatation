@@ -1,9 +1,8 @@
 //  Created by Dan Federman on 7/21/19.
 //  Copyright © 2019 Dan Federman.
 
+import Floatation
 import XCTest
-
-@testable import Floatation
 
 public class RegistryVerification {
 
@@ -11,7 +10,7 @@ public class RegistryVerification {
     /// Register all desired implementations before calling this method.
     public static func testRegistriesHaveDesiredImplementationsSet() {
         // Find all registries in the app via Objc runtime magic.
-        let registries = BaseRegistry.allRegistryClasses()
+        let registries = BaseRegistry.🧪allRegistryClasses()
 
         // Make sure we have at least one registry.
         XCTAssertGreaterThan(
@@ -21,9 +20,8 @@ public class RegistryVerification {
 
         // Test that every registry has a default implementation.
         for registry in registries {
-            let desiredRegistryImplementation = BaseRegistry.desiredImplementation(for: registry)
-            XCTAssertNotNil(
-                desiredRegistryImplementation,
+            XCTAssertTrue(
+                BaseRegistry.🧪desiredImplementationExists(for: registry),
                 "No desired implementation found for registry type \(registry)")
         }
 
@@ -31,9 +29,9 @@ public class RegistryVerification {
         // If this check fails but the above checks did not, then
         // our Objc runtime magic did not find every registry.
         XCTAssertEqual(
-            BaseRegistry.desiredImplementationCount,
+            BaseRegistry.🧪desiredImplementationCount,
             registries.count,
-            "\(BaseRegistry.desiredImplementationCount) "
+            "\(BaseRegistry.🧪desiredImplementationCount) "
                 + "desired implementations have been set, but there are "
                 + "\(registries.count) total registries")
     }
