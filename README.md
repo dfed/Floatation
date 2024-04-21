@@ -1,3 +1,7 @@
+# Archived Project
+
+This package has been abandoned in favor of the compile-time safe DI solution [SafeDI](github.com/dfed/safedi).
+
 # Floatation
 
 ## Overview
